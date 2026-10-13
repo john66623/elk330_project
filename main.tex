@@ -1,0 +1,117 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{float} % For getting figures on same page as text using [H]
+\usepackage{hyperref} % For creating clickable references
+\usepackage{ulem} % For double underlines
+\usepackage{amsmath} % For using \notag and \*equation
+\usepackage{makecell} % For making a cell inside table, for two lines inside one cell
+\usepackage{pdfpages} % For appending entire PDF pages
+\usepackage[
+    backend=biber,
+    style=ieee,
+    sorting=none
+]{biblatex}
+
+\addbibresource{references.bib} % For bibtex og kilder
+
+\title{Integrering av El-bil som Batteribank i Strømnettet \\ \large ELK330 Lab 3}
+\author{John Haugstad Bø}
+\date{Oktober 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{lab3_forsidebilde.png}
+    \caption{Bilde hentet fra \cite{elbil}}
+\end{figure}
+
+\newpage
+\section{Problemstilling og mål}
+\textbf{Problemstilling} \\
+Strømnettet i store deler av landet er overbelastet, og prisen på strømmen er tidvis veldig dyr. Flere av husstandene i Norge har per i dag el-biler med batterier som er godt dimensjonert for å forsyne en husstand i en viss periode, men ingen infrastruktur for å realisere dette. 
+\\ \\
+
+\textbf{Mål} \\
+Å kunne implementere el-bil og dets batteri som batteribank i en husstand (V2H Vehicle to Home), med mulighet for tilkobling til strømnettet for å muliggjøre salg (V2G Vehicle to Grid). 
+\\ \\
+
+\textbf{Aktuelle punkter i problemstillingen}
+\begin{itemize}
+    \item Batteriforbruk til forskjellige tidspunkt og begrensninger av dette
+
+    \item Beregning av kortslutningsstrømmer i en eventuell feilsituasjon, både internt i husstand og eksternt ut mot strømnettet
+
+    \item Synkronisering mot eksternt nett
+
+    \item Salg av strøm ut mot eksternt nett
+
+    \item Dimensjonering av vern og frakoblingsmuligheter
+
+    \item Smarte strømstyringstaktikker
+\end{itemize}
+
+
+\newpage
+\section{Faglig grunnlag}
+
+\textbf{Hvordan gjennomføre litteratursøk} \\
+Jeg planlegger å bruke ChatGPT \cite{chatgpt} til å finne relevant litteratur. Det å benytte ChatGPT til å gjøre litteratursøk kan fort ses på som en "enkel utvei", men sannheten er at det er et meget kraftig søkeverktøy som presist kan finne frem til god og relevant litteratur, basert på informasjonen man mater den. Jeg har videre planer om å lese gjennom litteraturen jeg finner for å forsikre meg om at den er faglig relevant og god. 
+\\
+
+\textbf{Vitenskapelige artikler} \\
+IEEE har publisert et par aktuelle vitenskapelige artikler rundt temaet, hvor de beskriver ytelse, virkningsgrad og oppbygning mellom bilens batteri og boligens AC-nett. 
+
+\begin{itemize}
+    \item IEEE Vitenskapelig artikkel "Performance-evaluation of bidirectional charger topologies": \url{https://ieeexplore.ieee.org/document/10164193} \cite{IEEE_1}
+    \item IEEE Vitenskapelig artikkel "Overcurrent Limiting in Grid-Forming Inverters":
+    \url{https://ieeexplore.ieee.org/document/10603443/} \cite{IEEE_2}
+\end{itemize}
+
+\textbf{Faglige rapporter} \\
+I tillegg har NVE lagd en rapport som forklarer regelverket for plusskunder i Norge, som spesifiserer mer rundt salg av strøm. De har også lagd en rapport for solcellekunder i Norge hvor de drøfter termiske begrensninger og utfordringer med spenningsstigning. Selv om rapporten gjelder solceller, er den relevant for tilkobling av elbil til strømnettet da den drøfter lignende problemstillinger. 
+
+\begin{itemize}
+    \item NVE rapport "Prosumenter og plusskunder i Norge": \url{https://www.nve.no/reguleringsmyndigheten/kunde/stroemnettet/prosumenter-og-plusskunder/} \cite{NVE_plusskunder}
+
+    \item NVE rapport "Solcellers påvirkning på strømnettet": \url{https://www.nve.no/reguleringsmyndigheten/nytt-fra-rme/nyheter-reguleringsmyndigheten-for-energi/solcellers-paavirkning-paa-stroemnettet/} \cite{NVE_solcelle}
+\end{itemize}
+
+\textbf{Fagbok}
+\begin{itemize}
+    \item Power System Analysis and Design, Glover \cite{glover}
+    \item Elektroinstallasjoner, Eilif Hugo Hansen \cite{elektroinstallasjoner}
+\end{itemize}
+I boka "Power System Analysis Design" er mye relevant verndimensjonering beskrevet, i tillegg til mye grunnleggende teori rundt strømnett generelt. \\ \\
+I boka "Elektrointallasjoner" er mye relevant fagstoff for dimensjonering opp mot hus og bolig, spesielt i forhold til regelverk og lover i Norge. 
+
+
+\newpage
+\section{Foreløpig Plan}
+Planen er å begynne med å hente inn en elbil-modell som eksempelmodell, med godt dokumenterte batteriverdier. Så er planen å benytte mulig effekt fra batteriet og modellere dette som en kilde i et typisk nabolag-strømnett, for så å simulere power flow og kortslutningsverdier. Videre kan dette brukes til å dimesjonere kabler, vern og lignende. \\ \\
+
+Videre er planen å regne ut forbruksverdier basert på last-data, dette kan gjøres via reelle last-verdier i .csv format, som videre kan regnes med i Python. \\ \\
+
+Så er planen å undersøke synkronisering opp mot strømnettet (overgang V2H $\rightarrow$ V2G) og hvordan dette kan gjennomføres, hvilke styrings- og sikkerhetskomponenter som trengs for å gjøre dette sikkert. 
+
+
+\newpage
+\section{Ambisjon og Gjennomførbarhet}
+Om jeg skal være ærlig, så er ikke mitt hovedfokus å prestere høyt på denne oppgaven. Oppgaven ligner veldig på den kommende bachelor-oppgaven, som vi også er i gang med å planlegge. Når begge oppgavene er veldig like, ønsker jeg heller å legge min hovedinnsats i å prestere på bacheloroppgaven fremfor denne oppgaven. 
+\\ \\
+Det er derimot ikke slik at jeg ønsker å levere en slurvete oppgave, men jeg tror ikke jeg kommer til å dykke noe særlig dypt i detaljene i denne oppgaven. Det blir heller en godt beskrevet oppgave om det som ikke er så veldig dypt. 
+
+
+\section{Ønsket innleveringsform}
+Jeg ønsker å levere i PDF-format kodet i \LaTeX. 
+
+\section{Gruppeønsker}
+Jeg ønsker gjerne å være på gruppe med Sander Stokkenes, Ole Kristian Taksdal og Kristoffer Gustafsson
+
+
+\newpage
+\printbibliography[title={Kilder}]
+
+\end{document}
