@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 
 
 def gauss_curve(t: np.ndarray, a :float, mu :float, sigma :float) -> np.ndarray: return a * np.exp(-(t - mu)**2 / (2 * sigma**2))
-
+'''
 t = np.linspace(0, 24, 100)
 A = 800
 mu = 12
@@ -26,15 +26,42 @@ plt.title('Gauss-kurve for solstråling G(t)')
 
 #skriv til fil
 plt.savefig('elk330/elk330_project/Kristoffer/soldata/Oving6/gauss_curve_sol.png')
-
+'''
 #Del 2
 #Hent ut data , vel dag
-df = pd.read_csv('elk330\elk330_project\Kristoffer\soldata\Oving6\data\Timeseries_59.735_6.756_SA3_36deg_0deg_2018_2018.csv', skiprows = 8, skipfooter=9)
-df["time"] = pd.to_datetime(df["time"], format="%Y%m%d:%H%M", utc=True)
-solDag = df[df["time"].dt.dayofyear == 182]
 
+from pathlib import Path
+import pandas as pd
+
+filsti = Path(__file__).resolve().parent / "data" / "Timeseries_59.735_6.756_SA3_36deg_0deg_2018_2018.csv"
+
+df = pd.read_csv(
+    filsti,
+    skiprows=8,
+    skipfooter=9,
+    engine="python"
+)
+
+df["time"] = pd.to_datetime(
+    df["time"],
+    format="%Y%m%d:%H%M",
+    utc=True
+)
+
+df["time"] = pd.to_datetime(
+    df["time"],
+    format="%Y%m%d:%H%M")
+
+solDag = df[df["time"].dt.dayofyear == 182].copy()
+
+solDag["time"] = solDag["time"].dt.round("h")
+
+solDag = solDag[["time", "G(i)"]]
+
+solDag.to_csv("solDag_2018.csv", index=False, sep=";", decimal=",")
 #new figure
 #
+'''
 plt.figure()
 t_dag = np.linspace(0, 23, len(solDag))
 print(df.dtypes)
@@ -49,3 +76,4 @@ plt.title('Solstråling G(i)')
 plt.savefig('elk330/elk330_project/Kristoffer/soldata/Oving6/solstråling.png')
 #print all paramaters
 print(f"Max: {solDag['G(i)'].max()}, Peak: {find_peaks(solDag['G(i)'])[0][0]}, Std: {solDag['G(i)'].std()}")
+'''
