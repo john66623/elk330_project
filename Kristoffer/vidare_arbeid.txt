@@ -1,0 +1,5 @@
+panela var Solarwatt 376, 46 panel Panel vision H 3.0 pure, ikkje SolarEDGE, kanaskje oppdatera data, er vel ikkje så viktig
+
+Får tilgang til masse produksjonsdata, i kvartersoppløysing. kan trekkja ifrå det i målepunktet på elhub, så skal vel det gjeva lastprofilen. cool shit
+
+
