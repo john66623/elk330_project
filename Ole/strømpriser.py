@@ -23,6 +23,12 @@ df = df.set_index('time_start')
 df = df.tz_convert("Europe/Oslo")
 df = df.tz_localize(None)
 
+pris = pd.read_csv("/Users/olekristiantaksdal/repos/elk330_project/Ole/strompriser_NO2_2026.csv",
+    dayfirst=True,
+    parse_dates=["time_start"]
+)
+
+
 print(df.head)
 dag = "2026-07-01"
 
@@ -109,20 +115,25 @@ print(døgn_sol.head)
 
 plt.figure(figsize = (12, 6))
 
+# plt.plot(
+#     døgn_sol.index,
+#     døgn_sol["kW"],
+#     label = "produksjon"
+# )
+# plt.plot(
+#     døgn_sol.index,
+#     last["load_kW"],
+#     label = "forbruk"
+# )
+# plt.plot(
+#     døgn_sol.index,
+#     døgn_sol["netto"],
+#     label = "netto"
+# )
 plt.plot(
-    døgn_sol.index,
-    døgn_sol["kW"],
-    label = "produksjon"
-)
-plt.plot(
-    døgn_sol.index,
-    last["load_kW"],
-    label = "forbruk"
-)
-plt.plot(
-    døgn_sol.index,
-    døgn_sol["netto"],
-    label = "netto"
+    pris.index,
+    pris["NOK_per_kWh"],
+    label = "pris"
 )
 plt.xlabel("Timer")
 plt.ylabel("kW")
