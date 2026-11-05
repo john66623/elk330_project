@@ -12,6 +12,7 @@ inverter["Time period"] = pd.to_datetime(
     format="%Y-%m-%d %I.%M %p",
     utc=True)
 
+
 malepunkt = pd.read_csv("elk330/elk330_project/Kristoffer/soldata/Måleverdiar_707057500066690314_COMBINED_jul.csv",sep = ";")
 malepunkt["Frå"] = pd.to_datetime(
     malepunkt["Frå"],
@@ -22,8 +23,12 @@ malepunkt["Til"] = pd.to_datetime(
     format="%Y-%m-%dT%H:%M:%S%z",
     utc=True)
 
+inverter["Time period"] = inverter["Time period"].map(lambda x: x.replace(year=2018))
+malepunkt["Frå"] = malepunkt["Frå"].map(lambda x: x.replace(year=2018))
+malepunkt["Til"] = malepunkt["Til"].map(lambda x: x.replace(year=2018))
+
 malepunkt.set_index("Frå", inplace=True)
-malepunkt_dag = malepunkt.loc["2026-07-02"]
+malepunkt_dag = malepunkt.loc["2018-07-02"]
 
 malepunkt_dag["Volum"] = malepunkt_dag["Volum"].str.replace(",", ".", regex=False).astype(float)
 
@@ -38,7 +43,7 @@ nyInv.set_index("Time", inplace=True)
 nyInv["Effekt"] = effekter
 
 faktiskLast = pd.DataFrame()
-faktiskLast.index = malepunkt.loc["2026-07-02"].iloc[0:24].index
+faktiskLast.index = malepunkt.loc["2018-07-02"].iloc[0:24].index
 faktiskLast["Last"] = malepunkt_dag["Volum"].iloc[0:24]+effekter
 
 
