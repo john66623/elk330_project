@@ -31,6 +31,16 @@ malepunkt_dag["Volum"] = malepunkt_dag["Volum"].str.replace(",", ".", regex=Fals
 effekter = [round(inverter["Power [kW]"].iloc[i:i+12].mean(), 2) for i in range(0, len(inverter["Time period"]), 12)]
 timer = np.arange(24)
 
+#Skriv data til csv-fil
+nyInv = pd.DataFrame()
+nyInv["Time"] = timer
+nyInv.set_index("Time", inplace=True)
+nyInv["Effekt"] = effekter
+
+nyInv.to_csv("elk330/elk330_project/Kristoffer/inverter_dag.csv")
+malepunkt_dag.to_csv("elk330/elk330_project/Kristoffer/malepunkt_dag.csv")
+
+
 plt.plot(timer, effekter, label="inverter")
 plt.plot(timer, malepunkt_dag["Volum"].iloc[0:24], label="Målepunkt")
 plt.plot(timer, malepunkt_dag["Volum"].iloc[0:24]+effekter, label="faktisk last")
@@ -39,4 +49,4 @@ plt.xlabel("Timer [H]")
 plt.ylabel("Effekt [kW]")
 plt.title("Forbruk på Nybø")
 plt.grid()
-plt.show()
+#plt.show()
