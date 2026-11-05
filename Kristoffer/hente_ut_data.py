@@ -37,9 +37,14 @@ nyInv["Time"] = timer
 nyInv.set_index("Time", inplace=True)
 nyInv["Effekt"] = effekter
 
+faktiskLast = pd.DataFrame()
+faktiskLast.index = malepunkt.loc["2026-07-02"].index
+faktiskLast["Last"] = malepunkt_dag["Volum"].iloc[0:24]+effekter
+
+
 nyInv.to_csv("elk330/elk330_project/Kristoffer/inverter_dag.csv")
 malepunkt_dag.to_csv("elk330/elk330_project/Kristoffer/malepunkt_dag.csv")
-
+faktiskLast.to_csv("elk330/elk330_project/Kristoffer/sumLast_dag.csv")
 
 plt.plot(timer, effekter, label="inverter")
 plt.plot(timer, malepunkt_dag["Volum"].iloc[0:24], label="Målepunkt")
