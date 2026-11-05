@@ -38,7 +38,7 @@ nyInv.set_index("Time", inplace=True)
 nyInv["Effekt"] = effekter
 
 faktiskLast = pd.DataFrame()
-faktiskLast.index = malepunkt.loc["2026-07-02"].index
+faktiskLast.index = malepunkt.loc["2026-07-02"].iloc[0:24].index
 faktiskLast["Last"] = malepunkt_dag["Volum"].iloc[0:24]+effekter
 
 
