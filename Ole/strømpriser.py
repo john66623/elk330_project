@@ -4,7 +4,10 @@ from scipy.signal import find_peaks
 import numpy as np
 import matplotlib.pyplot as plt
 
-df = pd.read_csv("/Users/olekristiantaksdal/repos/elk330_project/Ole/strompriser_NO2_juli_2026.csv",
+med_salg = "/Users/olekristiantaksdal/repos/elk330_project/Ole/resultater.csv"
+uten_salg = "/Users/olekristiantaksdal/repos/elk330_project/Ole/resultater_uten_salg.csv"
+
+df = pd.read_csv("/Users/olekristiantaksdal/repos/elk330_project/Ole/resultater.csv",
     dayfirst= True,
     parse_dates= ["time_start"]
 )
